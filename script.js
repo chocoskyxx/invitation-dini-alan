@@ -20,8 +20,8 @@ openBtn.addEventListener("click", function () {
     music.play();
 });
 
-// Countdown Akad Nikah
-const targetDate = new Date("2026-08-22T10:00:00+07:00").getTime();
+// Countdown Resepsi
+const targetDate = new Date("2026-08-23T10:00:00+07:00").getTime();
 const countdown = setInterval(function () {
     const now = new Date().getTime();
     const distance = targetDate - now;
