@@ -2,22 +2,27 @@
 const params = new URLSearchParams(window.location.search);
 const guest = params.get("to");
 if (guest) {
-    document.getElementById("guest").textContent = decodeURIComponent(guest);
+    const guestEl = document.getElementById("guest");
+    if (guestEl) guestEl.textContent = decodeURIComponent(guest);
 }
 
 // Tombol Buka Undangan & Putar Musik
-const openBtn = document.getElementById("openBtn");
-const cover = document.querySelector(".cover");
-const home = document.getElementById("home");
-const music = document.getElementById("bg-music");
+document.addEventListener("DOMContentLoaded", function() {
+    const openBtn = document.getElementById("openBtn");
+    const cover = document.querySelector(".cover");
+    const home = document.getElementById("home");
+    const music = document.getElementById("bg-music");
 
-openBtn.addEventListener("click", function () {
-    cover.style.display = "none";
-    home.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    
-    if (music) {
-        music.play().catch(error => console.log("Musik gagal diputar otomatis"));
+    if (openBtn) {
+        openBtn.addEventListener("click", function () {
+            if (cover) cover.style.display = "none";
+            if (home) home.style.display = "block";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            
+            if (music) {
+                music.play().catch(error => console.log("Musik gagal diputar otomatis"));
+            }
+        });
     }
 });
 
@@ -29,32 +34,21 @@ const countdown = setInterval(function () {
 
     if (distance <= 0) {
         clearInterval(countdown);
-        document.getElementById("days").innerHTML = "0";
-        document.getElementById("hours").innerHTML = "0";
-        document.getElementById("minutes").innerHTML = "0";
-        document.getElementById("seconds").innerHTML = "0";
         return;
     }
 
-    document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-    document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
+    const d = document.getElementById("days");
+    const h = document.getElementById("hours");
+    const m = document.getElementById("minutes");
+    const s = document.getElementById("seconds");
+
+    if (d) d.innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
+    if (h) h.innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    if (m) m.innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    if (s) s.innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
 }, 1000);
 
-// Animasi Scroll
-const elements = document.querySelectorAll(".fade, .event, .card-section");
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("show");
-        }
-    });
-}, { threshold: 0.15 });
-
-elements.forEach((el) => observer.observe(el));
-
-// Efek Partikel Animasi
+// Efek Partikel Animasi Bunga/Daun Jatuh
 const particleContainer = document.querySelector(".particles");
 if (particleContainer) {
     function createParticle() {
@@ -63,7 +57,7 @@ if (particleContainer) {
         particle.style.left = Math.random() * 100 + "vw";
         particle.style.animationDuration = (Math.random() * 8 + 7) + "s";
         
-        const size = Math.random() * 4 + 2; 
+        const size = Math.random() * 6 + 4; 
         particle.style.width = size + "px";
         particle.style.height = size + "px";
         
@@ -73,5 +67,5 @@ if (particleContainer) {
             particle.remove();
         }, 15000);
     }
-    setInterval(createParticle, 500);
+    setInterval(createParticle, 400);
 }
